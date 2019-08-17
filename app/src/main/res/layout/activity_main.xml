@@ -23,23 +23,16 @@
             android:contentDescription="@string/sample_banner"
             app:srcCompat="@drawable/sample_scrabble"/>
 
-    <EditText
+    <fragment
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:inputType="text"
-            android:ems="10"
-            android:id="@+id/searchForm"
-            android:layout_marginTop="32dp"
+            android:name="com.erplsf.scrubber.MainActivityFragment"
+            android:id="@+id/fragment"
+            android:layout_marginTop="20dp"
             app:layout_constraintTop_toBottomOf="@+id/imageView"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginEnd="8dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:singleLine="true"
-            android:hint="@string/enter_your_word"
-            android:textAlignment="center"
-            android:imeOptions="actionDone"
-            android:importantForAutofill="no"
-            tools:targetApi="o"/>
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginStart="8dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
