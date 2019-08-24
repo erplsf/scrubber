@@ -8,4 +8,37 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="grammarClass">
+        <!--<item name="android:id">@id/grammarClassTextView</item>-->
+        <!--<item name="android:layout_width">wrap_content</item>-->
+        <!--<item name="android:layout_height">wrap_content</item>-->
+        <!--<item name="android:layout_marginTop">8dp</item>-->
+        <!--<item name="android:layout_marginEnd">8dp</item>-->
+        <!--<item name="android:layout_marginStart">8dp</item>-->
+        <item name="android:fontFamily">monospace</item>
+        <item name="android:textSize">24sp</item>
+    </style>
+
+    <style name="meaning">
+        <!--<item name="android:id">@id/meaningTextView</item>-->
+        <!--<item name="android:layout_width">wrap_content</item>-->
+        <!--<item name="android:layout_height">wrap_content</item>-->
+        <!--<item name="android:layout_marginTop">8dp</item>-->
+        <!--<item name="android:layout_marginStart">8dp</item>-->
+    </style>
+
+    <style name="word">
+        <item name="android:id">@id/wordTextView</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:layout_marginEnd">8dp</item>
+        <item name="android:layout_marginStart">8dp</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <item name="wordTextView" type="id"/>
+    <item name="meaningTextView" type="id"/>
+    <item name="grammarClassTextView" type="id"/>
 </resources>

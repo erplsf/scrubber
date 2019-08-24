@@ -7,12 +7,16 @@ class ResponseParser {
         fun parse(response: String): WordDefinition {
             val doc =  Jsoup.parse(response)
             return if (doc.body().text() == "0") { // word doesn't exist in dictionary
-                WordDefinition(false, "", "", "")
-            } else { // word exists, split and
+                WordDefinition(false, "", HashMap())
+            } else { // word exists, split and parse
                 val word = doc.select(".hwd").first().text()
-                val grammarGroup = doc.select(".pos").first().text()
-                val meaning = doc.select(".def").first().text()
-                WordDefinition(true, word, grammarGroup, meaning)
+                val meanings = HashMap<String, String>()
+                doc.select(".hom").forEach { element ->
+                    val group = element.select(".pos").first().text()
+                    val meaning = element.select(".def").first().text()
+                    meanings[group] = meaning
+                }
+                WordDefinition(true, word, meanings)
             }
         }
     }

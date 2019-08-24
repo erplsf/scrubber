@@ -1,15 +1,16 @@
 package com.erplsf.scrubber
 
-import androidx.lifecycle.LifecycleOwner
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
-import kotlinx.android.synthetic.main.fragment_main_activity.*
-import javax.inject.Inject
+import java.util.concurrent.Executors
 
-class MainActivityViewModel : ViewModel() {
-    private val wordRepository: WordRepository = WordRepository()
+class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
+    private val wordRepository: WordRepository = WordRepository(
+        dictionaryAPI = DictionaryAPI.create(),
+        wordDefinitionDao = WordDefinitionDatabase.getDatabase(application).wordDefinitionDao(),
+        executor = Executors.newFixedThreadPool(3)
+    )
 
     fun fetchWord(word: String): LiveData<WordDefinition> {
         return wordRepository.getWordDefinition(word)

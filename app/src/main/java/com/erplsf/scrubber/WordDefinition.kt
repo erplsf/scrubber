@@ -1,3 +1,11 @@
 package com.erplsf.scrubber
 
-data class WordDefinition(val isValid: Boolean, val word: String, val grammarGroup: String, val meaning: String)
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity
+data class WordDefinition(
+    val isValid: Boolean,
+    @PrimaryKey val word: String,
+    val meanings: HashMap<String, String>
+)
