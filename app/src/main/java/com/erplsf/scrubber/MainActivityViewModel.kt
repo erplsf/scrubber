@@ -7,7 +7,6 @@ import java.util.concurrent.Executors
 
 class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
     private val wordRepository: WordRepository = WordRepository(
-        dictionaryAPI = DictionaryAPI.create(),
         wordDefinitionDao = WordDefinitionDatabase.getDatabase(application).wordDefinitionDao(),
         executor = Executors.newFixedThreadPool(3)
     )

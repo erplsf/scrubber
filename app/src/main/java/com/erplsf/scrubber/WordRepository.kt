@@ -11,10 +11,11 @@ import javax.security.auth.callback.Callback
 
 @Singleton
 class WordRepository @Inject constructor(
-    private val dictionaryAPI: DictionaryAPI,
     private val wordDefinitionDao: WordDefinitionDao,
     private val executor: Executor
 ) {
+    private val dictionaryAPI: DictionaryAPI = DictionaryAPI.create()
+
     fun getWordDefinition(word: String): LiveData<WordDefinition> {
         refreshWordDefinition(word)
 

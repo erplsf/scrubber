@@ -3,12 +3,11 @@ package com.erplsf.scrubber
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Insert
-import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 
 @Dao
 interface WordDefinitionDao {
-    @Insert(onConflict = REPLACE)
+    @Insert
     fun save(wordDefinition: WordDefinition)
 
     @Query("SELECT * FROM wordDefinition WHERE word = :word")
