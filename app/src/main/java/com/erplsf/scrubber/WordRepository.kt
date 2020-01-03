@@ -33,7 +33,8 @@ class WordRepository @Inject constructor(
 
                     override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                         executor.execute {
-                            wordDefinitionDao.save(ResponseParser.parse(response.body()!!.string()))
+                            val wordDefinition = ResponseParser.parse(response)
+                            wordDefinitionDao.save(wordDefinition)
                         }
                     }
                 })

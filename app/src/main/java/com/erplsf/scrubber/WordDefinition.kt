@@ -6,6 +6,6 @@ import androidx.room.PrimaryKey
 @Entity
 data class WordDefinition(
     val isValid: Boolean,
-    @PrimaryKey val word: String,
-    val meanings: HashMap<String, String>
+    @PrimaryKey val word: String = "",
+    val meanings: HashMap<String, String> = HashMap()
 )
