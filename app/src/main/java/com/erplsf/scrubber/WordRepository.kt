@@ -1,9 +1,13 @@
 package com.erplsf.scrubber
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
+import java.lang.reflect.WildcardType
 import java.util.concurrent.Executor
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,11 +23,13 @@ class WordRepository @Inject constructor(
     fun getWordDefinition(word: String): LiveData<WordDefinition> {
         refreshWordDefinition(word)
 
+//        val wordDefinition = wordDefinitionDao.load(word)
+
         return wordDefinitionDao.load(word)
     }
 
-    private fun refreshWordDefinition(word: String) {
-        executor.execute {
+    private suspend fun refreshWordDefinition(word: String) {
+        withContext(Dispatchers.IO) {
             if (wordDefinitionDao.hasWordDefinition(word) == 0) {
                 dictionaryAPI.getWordDefinition(word).enqueue(object : Callback,
                     retrofit2.Callback<ResponseBody> {
@@ -38,6 +44,8 @@ class WordRepository @Inject constructor(
                         }
                     }
                 })
+            } else {
+                wordDefinitionDao.load(word)
             }
         }
     }
