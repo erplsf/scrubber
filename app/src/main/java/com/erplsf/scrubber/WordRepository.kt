@@ -2,6 +2,7 @@ package com.erplsf.scrubber
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.liveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.ResponseBody
@@ -20,12 +21,8 @@ class WordRepository @Inject constructor(
 ) {
     private val dictionaryAPI: DictionaryAPI = DictionaryAPI.create()
 
-    fun getWordDefinition(word: String): LiveData<WordDefinition> {
-        refreshWordDefinition(word)
+    fun getWordDefinition(word: String) = liveData<WordDefinition> {
 
-//        val wordDefinition = wordDefinitionDao.load(word)
-
-        return wordDefinitionDao.load(word)
     }
 
     private suspend fun refreshWordDefinition(word: String) {
