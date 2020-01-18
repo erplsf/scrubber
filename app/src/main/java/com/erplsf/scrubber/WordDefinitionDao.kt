@@ -15,5 +15,5 @@ interface WordDefinitionDao {
     fun load(word: String): LiveData<WordDefinition>
 
     @Query("SELECT COUNT(*) FROM wordDefinition WHERE word = :word")
-    fun hasWordDefinition(word: String): Int
+    fun hasWordDefinition(word: String): Boolean
 }

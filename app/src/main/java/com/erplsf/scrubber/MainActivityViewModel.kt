@@ -3,12 +3,13 @@ package com.erplsf.scrubber
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import java.util.concurrent.Executors
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 
 class MainActivityViewModel(application: Application) : AndroidViewModel(application) {
     private val wordRepository: WordRepository = WordRepository(
         wordDefinitionDao = WordDefinitionDatabase.getDatabase(application).wordDefinitionDao(),
-        executor = Executors.newFixedThreadPool(3)
+        context = viewModelScope.coroutineContext + Dispatchers.IO
     )
 
     fun fetchWord(word: String): LiveData<WordDefinition> {

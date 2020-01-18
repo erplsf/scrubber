@@ -1,49 +1,32 @@
 package com.erplsf.scrubber
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.liveData
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import okhttp3.ResponseBody
-import retrofit2.Call
-import retrofit2.Response
-import java.lang.reflect.WildcardType
-import java.util.concurrent.Executor
 import javax.inject.Inject
 import javax.inject.Singleton
-import javax.security.auth.callback.Callback
+import kotlin.coroutines.CoroutineContext
 
 @Singleton
 class WordRepository @Inject constructor(
     private val wordDefinitionDao: WordDefinitionDao,
-    private val executor: Executor
+    private val context: CoroutineContext
 ) {
     private val dictionaryAPI: DictionaryAPI = DictionaryAPI.create()
 
-    fun getWordDefinition(word: String) = liveData<WordDefinition> {
+    fun getWordDefinition(word: String) = liveData(context) {
+        val disposable = emitSource(
+            wordDefinitionDao.load(word)
+        )
 
-    }
+        if (!wordDefinitionDao.hasWordDefinition(word)) {
+            disposable.dispose()
+            val response = dictionaryAPI.getWordDefinition(word).execute()
+            val wordDefinition = ResponseParser.parse(response)
 
-    private suspend fun refreshWordDefinition(word: String) {
-        withContext(Dispatchers.IO) {
-            if (wordDefinitionDao.hasWordDefinition(word) == 0) {
-                dictionaryAPI.getWordDefinition(word).enqueue(object : Callback,
-                    retrofit2.Callback<ResponseBody> {
-                    override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                    }
+            wordDefinitionDao.save(wordDefinition)
 
-                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
-                        executor.execute {
-                            val wordDefinition = ResponseParser.parse(response)
-                            wordDefinitionDao.save(wordDefinition)
-                        }
-                    }
-                })
-            } else {
+            emitSource(
                 wordDefinitionDao.load(word)
-            }
+            )
         }
     }
 
