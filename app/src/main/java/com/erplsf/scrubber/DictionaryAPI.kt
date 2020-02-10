@@ -5,6 +5,7 @@ import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.http.GET
 import retrofit2.http.Query
+import java.util.concurrent.Executors
 
 interface DictionaryAPI {
     @GET("scrabble_api.php")
@@ -13,6 +14,7 @@ interface DictionaryAPI {
     companion object Factory {
         fun create() : DictionaryAPI {
             val retrofit = Retrofit.Builder()
+                .callbackExecutor(Executors.newSingleThreadExecutor())
                 .baseUrl("https://unikove.com/projects/scrabble_widget/")
                 .build()
 

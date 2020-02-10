@@ -2,6 +2,7 @@ package com.erplsf.scrubber
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -83,20 +84,27 @@ class MainActivityFragment : Fragment() {
 
         searchForm.setOnEditorActionListener(OnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                val inputManager = context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                val inputManager =
+                    context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
                 inputManager.hideSoftInputFromWindow(
                     activity?.currentFocus?.windowToken,
                     InputMethodManager.HIDE_NOT_ALWAYS
                 )
-                viewModel.fetchWord(searchForm.text.toString()).observe(this, Observer<WordDefinition?> { data ->
-                    if (data != null) {
-                        if (data.isValid) {
-                            mapWordToView(data)
-                        }
-                    } else {
-                        wipeView()
-                    }
+
+                val wordToSearch = searchForm.text.toString()
+                viewModel.fetchWordFromDb(wordToSearch).observe(viewLifecycleOwner, Observer { data ->
+                    Log.d("MainActivityFragment", data.toString())
                 })
+//                viewModel.fetchWord(searchForm.text.toString()).observe(viewLifecycleOwner, Observer<WordDefinition?> { data ->
+//                    Log.d("MainActivityFragment", data.toString())
+//                    if (data != null) {
+//                        if (data.isValid) {
+//                            mapWordToView(data)
+//                        }
+//                    } else {
+//                        wipeView()
+//                    }
+//                })
 
                 return@OnEditorActionListener true
             }

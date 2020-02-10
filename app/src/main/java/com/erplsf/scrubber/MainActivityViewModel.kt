@@ -15,4 +15,8 @@ class MainActivityViewModel(application: Application) : AndroidViewModel(applica
     fun fetchWord(word: String): LiveData<WordDefinition> {
         return wordRepository.getWordDefinition(word)
     }
+
+    fun fetchWordFromDb(word: String): LiveData<WordDefinition> {
+        return wordRepository.getWordDefinitionFromDb(word)
+    }
 }
