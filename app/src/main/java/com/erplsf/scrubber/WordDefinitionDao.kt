@@ -9,11 +9,11 @@ import androidx.room.Query
 @Dao
 interface WordDefinitionDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun save(wordDefinition: WordDefinition)
+    suspend fun save(wordDefinition: WordDefinition)
 
     @Query("SELECT * FROM wordDefinition WHERE word = :word LIMIT 1")
     fun load(word: String): LiveData<WordDefinition>
 
     @Query("SELECT COUNT(*) FROM wordDefinition WHERE word = :word")
-    fun hasWordDefinition(word: String): Boolean
+    suspend fun hasWordDefinition(word: String): Boolean
 }
