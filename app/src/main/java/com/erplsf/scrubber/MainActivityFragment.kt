@@ -90,10 +90,15 @@ class MainActivityFragment : Fragment() {
                     activity?.currentFocus?.windowToken,
                     InputMethodManager.HIDE_NOT_ALWAYS
                 )
-
+                val tag = "MainActivityFragment"
                 val wordToSearch = searchForm.text.toString()
-                viewModel.fetchWordFromDb(wordToSearch).observe(viewLifecycleOwner, Observer { data ->
-                    Log.d("MainActivityFragment", data.toString())
+                viewModel.fetchWord(wordToSearch).observe(viewLifecycleOwner, Observer { data ->
+                    Log.d(tag, "Data changed!")
+                    if (data != null) {
+                        Log.d(tag, data.toString())
+                    } else {
+                        Log.d(tag, "Null data")
+                    }
                 })
 //                viewModel.fetchWord(searchForm.text.toString()).observe(viewLifecycleOwner, Observer<WordDefinition?> { data ->
 //                    Log.d("MainActivityFragment", data.toString())
