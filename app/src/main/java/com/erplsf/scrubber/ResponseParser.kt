@@ -3,22 +3,21 @@ package com.erplsf.scrubber
 import okhttp3.ResponseBody
 import org.jsoup.Jsoup
 import retrofit2.Response
-import java.lang.Exception
 
 class EmptyResponseBodyException(message: String) : Exception(message)
 
 class ResponseParser {
     companion object {
-        fun parse(response: Response<ResponseBody>): Result<WordDefinition> {
+        fun parse(response: Response<ResponseBody>): WordDefinition? {
             if (response.body() == null) {
-                return Result.failure(throw EmptyResponseBodyException)
+                return null
             }
 
             val body = response.body()!!.string()
             val doc = Jsoup.parse(body)
 
             return if (doc.body().text() == "0") { // word doesn't exist in dictionary
-                Result.success(WordDefinition(isValid = false))
+                WordDefinition(isValid = false)
             } else { // word exists, split and parse
                 val word = doc.select(".hwd").first().text()
                 val meanings = HashMap<String, String>()
@@ -27,7 +26,7 @@ class ResponseParser {
                     val meaning = element.select(".def").first().text()
                     meanings[group] = meaning
                 }
-                Result.success(WordDefinition(isValid = true, word = word, meanings = meanings))
+                WordDefinition(isValid = true, word = word, meanings = meanings)
             }
         }
     }

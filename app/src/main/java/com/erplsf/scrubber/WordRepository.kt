@@ -33,7 +33,7 @@ class WordRepository @Inject constructor(
                     response: Response<ResponseBody>
                 ) {
                     val wordDefinition = ResponseParser.parse(response)
-                    if (wordDefinition.isValid) {
+                    if (wordDefinition) {
                         wordDefinitionDao.save(wordDefinition)
                     } else {
                         wordDefinitionDao.save(WordDefinition(word = word, isValid = false))
